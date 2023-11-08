@@ -38,8 +38,12 @@ class AppClass extends Component {
       steps: initialSteps,
       index: initialIndex,
       limitReachedMessage: '',
+    }, () => {
+      const coordinatesElement = document.getElementById('coordinates');
+      if (coordinatesElement) coordinatesElement.textContent = this.getXYMessage();
     });
   }
+  
   getNextIndex(direction) {
     const x = this.state.index % 3;
     const y = Math.floor(this.state.index / 3);
@@ -75,7 +79,11 @@ class AppClass extends Component {
         steps: prevState.steps + 1,
         limitReachedMessage: '',
         message: '',
-      }));
+      }), () => {
+        
+        const coordinatesElement = document.getElementById('coordinates');
+        if (coordinatesElement) coordinatesElement.textContent = this.getXYMessage();
+      });
     } else {
       this.setState({
         limitReachedMessage: `You can't go ${direction}`,
@@ -83,6 +91,7 @@ class AppClass extends Component {
       });
     }
   }
+  
   
   
   onChange = (evt) => {
@@ -94,7 +103,7 @@ class AppClass extends Component {
 
   onSubmit = async (evt) => {
     evt.preventDefault();
-
+  
     try {
       const response = await fetch('http://localhost:9000/api/result', {
         method: 'POST',
@@ -108,13 +117,17 @@ class AppClass extends Component {
           email: this.state.email,
         }),
       });
-
+  
       const data = await response.json();
-
+  
       if (response.ok) {
         this.setState({
           message: data.message,
           email: initialEmail,
+        }, () => {
+          
+          const coordinatesElement = document.getElementById('coordinates');
+          if (coordinatesElement) coordinatesElement.textContent = this.getXYMessage();
         });
       } else {
         this.setState({
@@ -128,7 +141,6 @@ class AppClass extends Component {
       });
     }
   }
-
   componentDidMount() {
     const coordinatesElement = document.getElementById('coordinates');
     if (coordinatesElement) coordinatesElement.textContent = this.getXYMessage();
