@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { Component } from 'react';
 
 const initialMessage = '';
 const initialEmail = '';
@@ -8,7 +8,6 @@ const initialIndex = 4;
 class AppClass extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       message: initialMessage,
       email: initialEmail,
@@ -21,12 +20,15 @@ class AppClass extends Component {
   getXY() {
     const x = (this.state.index % 3) + 1;
     const y = Math.floor(this.state.index / 3) + 1;
-    return { x, y };
+    return {x,y};
+    
   }
 
   getXYMessage() {
     const { x, y } = this.getXY();
+    console.log(x, y)
     return `Coordinates (${x}, ${y})`;
+    
   }
 
   reset() {
@@ -38,13 +40,12 @@ class AppClass extends Component {
       limitReachedMessage: '',
     });
   }
-
   getNextIndex(direction) {
     const x = this.state.index % 3;
     const y = Math.floor(this.state.index / 3);
-
+  
     let nextIndex;
-
+  
     switch (direction) {
       case 'left':
         nextIndex = x > 0 ? this.state.index - 1 : this.state.index;
@@ -61,13 +62,13 @@ class AppClass extends Component {
       default:
         nextIndex = this.state.index;
     }
-
+  
     return nextIndex;
   }
-
+  
   move(direction) {
     const nextIndex = this.getNextIndex(direction);
-
+  
     if (nextIndex !== this.state.index) {
       this.setState(prevState => ({
         index: nextIndex,
@@ -82,15 +83,16 @@ class AppClass extends Component {
       });
     }
   }
-
-  onChange(evt) {
+  
+  
+  onChange = (evt) => {
     const { id, value } = evt.target;
     if (id === 'email') {
       this.setState({ email: value });
     }
   }
 
-  async onSubmit(evt) {
+  onSubmit = async (evt) => {
     evt.preventDefault();
 
     try {
@@ -115,7 +117,9 @@ class AppClass extends Component {
           email: initialEmail,
         });
       } else {
-        this.setState({ message: data.message });
+        this.setState({
+          message: data.message,
+        });
       }
     } catch (error) {
       console.error('Error:', error);
@@ -127,8 +131,7 @@ class AppClass extends Component {
 
   componentDidMount() {
     const coordinatesElement = document.getElementById('coordinates');
-    if (coordinatesElement)
-      coordinatesElement.textContent = this.getXYMessage();
+    if (coordinatesElement) coordinatesElement.textContent = this.getXYMessage();
 
     const stepsElement = document.getElementById('steps');
     if (stepsElement) {
@@ -153,15 +156,12 @@ class AppClass extends Component {
     return (
       <div id="wrapper" className={this.props.className}>
         <div className="info">
-          <h3 id="coordinates">Coordinates (2, 2)</h3>
+          <h3 id="coordinates">Coordinats (9, 9)</h3>
           <h3 id="steps">You moved 0 times</h3>
         </div>
         <div id="grid">
           {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((idx) => (
-            <div
-              key={idx}
-              className={`square${idx === this.state.index ? ' active' : ''}`}
-            >
+            <div key={idx} className={`square${idx === this.state.index ? ' active' : ''}`}>
               {idx === this.state.index ? 'B' : null}
             </div>
           ))}
@@ -187,13 +187,13 @@ class AppClass extends Component {
             reset
           </button>
         </div>
-        <form onSubmit={(evt) => this.onSubmit(evt)}>
+        <form onSubmit={this.onSubmit}>
           <input
             id="email"
             type="email"
             placeholder="type email"
             value={this.state.email}
-            onChange={(evt) => this.onChange(evt)}
+            onChange={this.onChange}
           />
           <input id="submit" type="submit" />
         </form>
