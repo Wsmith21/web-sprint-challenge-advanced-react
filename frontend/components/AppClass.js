@@ -168,7 +168,7 @@ class AppClass extends Component {
     return (
       <div id="wrapper" className={this.props.className}>
         <div className="info">
-          <h3 id="coordinates">Coordinats (9, 9)</h3>
+          <h3 id="coordinates">Coordinates (9, 9)</h3>
           <h3 id="steps">You moved 0 times</h3>
         </div>
         <div id="grid">

@@ -1,113 +1,49 @@
-// Write your tests here
-import React, { Component } from 'react';
+import React from 'react';
+import { render, fireEvent, getByTitle, getByTestId } from '@testing-library/react';
+import AppFunctional from './AppFunctional';
 
-class AppClass extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      x: 1,
-      y: 1,
-      steps: 1,
-      email: '',
-      successMessage: '',
-      errorMessage: '',
-    };
-  }
+test('typing a valid email updates state', () => {
+  const { getByPlaceholderText } = render(<AppFunctional />);
+  const emailInput = getByPlaceholderText('type email');
 
-  handleChange = (e) => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
+  fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
 
-  handleSubmit = async (e) => {
-    e.preventDefault();
+  expect(emailInput.value).toBe('test@example.com');
+});
 
-    try {
-      const response = await fetch('http://localhost:9000/api/result', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(this.state),
-      });
+test('typing a valid email updates state', () => {
+  const { getByPlaceholderText } = render(<AppFunctional />);
+  const emailInput = getByPlaceholderText('type email');
 
-      const data = await response.json();
+  fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
 
-      if (response.ok) {
-        this.setState({
-          successMessage: data.message,
-          errorMessage: '',
-        });
-      } else {
-        this.setState({
-          errorMessage: data.message,
-          successMessage: '',
-        });
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      this.setState({
-        errorMessage: 'An error occurred. Please try again later.',
-        successMessage: '',
-      });
-    }
-  };
+  expect(emailInput.value).toBe('test@example.com');
+});
 
-  render() {
-    const { x, y, steps, email, successMessage, errorMessage } = this.state;
+test('typing a valid email updates state', () => {
+  const { getByPlaceholderText } = render(<AppFunctional />);
+  const emailInput = getByPlaceholderText('type email');
 
-    return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            X:
-            <input
-              type="number"
-              name="x"
-              min="1"
-              max="3"
-              value={x}
-              onChange={this.handleChange}
-            />
-          </label>
-          <label>
-            Y:
-            <input
-              type="number"
-              name="y"
-              min="1"
-              max="3"
-              value={y}
-              onChange={this.handleChange}
-            />
-          </label>
-          <label>
-            Steps:
-            <input
-              type="number"
-              name="steps"
-              min="1"
-              value={steps}
-              onChange={this.handleChange}
-            />
-          </label>
-          <label>
-            Email:
-            <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={this.handleChange}
-            />
-          </label>
-          <button type="submit">Submit</button>
-        </form>
+  fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
 
-        {successMessage && <div className="success">{successMessage}</div>}
-        {errorMessage && <div className="error">{errorMessage}</div>}
-      </div>
-    );
-  }
-}
+  expect(emailInput.value).toBe('test@example.com');
+});
 
-export default AppClass;
+
+test('typing a valid email updates state', () => {
+  const { getByPlaceholderText } = render(<AppFunctional />);
+  const emailInput = getByPlaceholderText('type email');
+
+  fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+
+  expect(emailInput.value).toBe('test@example.com');
+});
+
+test('typing a valid email updates state', () => {
+  const { getByPlaceholderText } = render(<AppFunctional />);
+  const emailInput = getByPlaceholderText('type email');
+
+  fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+
+  expect(emailInput.value).toBe('test@example.com');
+});
